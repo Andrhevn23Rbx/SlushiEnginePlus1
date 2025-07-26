@@ -1,20 +1,9 @@
-package states;
-
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.text.FlxText;
-import flixel.util.FlxColor;
-
-class OutdatedState extends MusicBeatState
+override function create()
 {
-	override function create()
-	{
-		super.create();
-		MusicBeatState.switchState(new MainMenuState());
-	}
+	super.create();
 
-	override function update(elapsed:Float)
-	{
-		super.update(elapsed);
-	}
+	// Instantly skip to main menu without showing anything
+	leftState = true;
+	MusicBeatState.switchState(new MainMenuState());
 }
+
