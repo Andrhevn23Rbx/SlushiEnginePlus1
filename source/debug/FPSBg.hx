@@ -12,7 +12,7 @@ class FPSBg extends Sprite
         super();
 
 		bgCard = new Sprite();
-		bgCard.graphics.beginFill(0x000000, 0.5);
+		bgCard.graphics.beginFill(0x000000, 0.0);
 		bgCard.graphics.drawRect(0, 0, 300, 110);
 		bgCard.graphics.endFill();
 		addChild(bgCard);
