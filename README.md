@@ -1,159 +1,118 @@
-# FNF - H-Slice (HRK Engine Redux)
+# FNF - SCE+ (Slushi Engine Plus)
 This engine will implement some features inherited from my old Engine.  
 And add some new things.....?.....in the future.
 
 If you want to add my features in your own engine,  
-Please contact me before s0m3th1ng happens.  
+Please contact me before smth happens.  
 Because I don't like to be imitated so much.  
 Credit isn't required, but I'm glad if u did.  
-Discord: hrk.exex  
-X(Twitter): @Hrek_Hexex  
-Bluesky: @hrekexexex.bsky.social  
+Discord: anj.batx  
+  
 
 This project using linc_luajit by Lily/mcagabe19  
 For more information, It's here a link.  
 https://github.com/mcagabe19/linc_luajit-rewriten/  
   
+<h1 align="center">Slushi Engine</h1>
+<h2 align="center">The engine that integrates Windows API functions into an FNF' engine!</h2>
+
+<table align="center">
+    <tr>
+        <td><a href="./README.md">English<a></td>
+        <td><a href="./README_ES.md">Español</a></td>
+    </tr>
+</table>
+
+![Slushi Engine Logo](https://github.com/Slushi-Github/Slushi-Engine/blob/main/docs/readmeImages/SlushiEngineLogo.png)
+
+![Windows Workflow Status](https://img.shields.io/github/actions/workflow/status/Slushi-Github/Slushi-Engine/.github%2Fworkflows%2Fwindows.yml?label=Windows)
+![Linux Workflow Status](https://img.shields.io/github/actions/workflow/status/Slushi-Github/Slushi-Engine/.github%2Fworkflows%2Flinux.yml?label=Linux)
+![MacOS Workflow Status](https://img.shields.io/github/actions/workflow/status/Slushi-Github/Slushi-Engine/.github%2Fworkflows%2Fmacos.yml?label=MacOS)
+![GitHub Downloads](https://img.shields.io/github/downloads/Slushi-Github/Slushi-Engine/total) 
+![GitHub repo size](https://img.shields.io/github/repo-size/Slushi-Github/Slushi-Engine)
+
+
+[GameBanana](https://gamebanana.com/tools/17953) - [Gamejolt](https://gamejolt.com/games/SlushiEngine/884361)
+
+
+Slushi Engine is an FNF' engine that allows you to make modcharts with [Modcharting Tools](https://github.com/EdwhakKB/FNF-Modcharting-Tools) and other [SC Engine](https://github.com/EdwhakKB/SC-SP-ENGINE) utilities, while also being able to make a unique kind of modchart that uses Windows functions!
+In addition, SLE takes some inspiration from [NotITG](https://www.noti.tg/) and [HITMANS: THE ANNIHILATE AND DESTROY PROJECT](https://gamebanana.com/mods/453997)
+
+You can do things like this, or even better things!
+
+![](https://github.com/Slushi-Github/Slushi-Engine/blob/main/docs/readmeImages/VideoDemonstration0.gif)
+[Video of this](https://youtu.be/lT-9rTg6f_o?si=8srv0LmbzZ6avGgb)
+
+The limit is in your mind, and of course, the OS where you run the engine hehe.
+
+Did you like the effects of mods such as No More Innocence, Paranoia from [Mario Madness V2](https://gamebanana.com/mods/359554)? Maelstrom from [Friday Night Troubleshootin'](https://gamebanana.com/mods/320006)?
+That changing the wallpaper, changing the cursor, hiding your taskbar?
+
+Oh, wait, NMI doesn't have public source code right? And neither does Friday Night Troubleshootin', and they don't make it easy for you to make your songs with such effects, or rather it's impossible to do it natively with the mod's engine. 
+
+Well, you are looking at the FNF' engine that will let you obtain your full potential in relation to certain mechanics of these mods mentioned, through its large amount of Lua functions to make your songs with all of this.
+
+SLE, is created by me, Andrés, better known on the internet as Slushi, I'm the one who made EVERYTHING, between arts, most of the code and that, but of course, most of the C++ code has been taken from [StackOverflow](https://stackoverflow.com/), or with the help of AIs (like [ChatGPT](https://chatgpt.com/), [Google Gemini](https://gemini.google.com/app), etc...), but also with the help of my friends, like [Glowsoony](https://github.com/glowsoony), or [EdwhakKB](https://github.com/EdwhakKB), like lending me code or helping me in this, that these are the ones who developed SCE, the base of SLE.
+and last but not least, I have also received help from my good friend, [Trock](https://github.com/Gametrock), he is the one who made WinSL a reality!
+Without more to say, this IS Slushi Engine. an engine that not only uses FNF as a base, but also the beautiful Slushi, from [Chikn Nuggit](https://twitter.com/chikn_nuggit?t=YohD2quSHtamaiJyzT-FOA&s=09).
+
+SLE has a [wiki](https://github.com/Slushi-Github/Slushi-Engine/tree/main/docs/development/SLELuaSpanish) in Spanish detailing its added Lua functionality, so you can see everything that this engine can do through such a simple language hehe
+
+### Build Instructions:
+
+[Read this](https://github.com/Slushi-Github/Slushi-Engine/blob/main/docs/development/BuildInstructions.md) to know how to build SLE
+
+### Frequently asked questions during the development of the engine:
+
+Is the engine safe?:
+> Yes! SLE may have had suspicious code in the past, like abstracting functions for crashing Windows to modcharts, modifying the Windows registry, but not currently, and never something that leaves permanent or difficult to remove changes,the only change that can stay depending on how your Windows handles it, is to move the desktop icons, they can stay bugged, but it is fixed by restarting the Windows Explorer.
+(If you are working with the engine source code, removing `SLUSHI_CPP_CODE` from `Project.xml` will eliminate most of the functions related to Windows.)
+
+I don't want the engine to be able to modify things on my system!:
+
+> Ok, you can disable the Windows related effects of the engine in options.
+
+Can SLE be for other systems?:
+> Mm, yes and no, it depends, as SLE is an engine that is heavily reliant on Windows APIs for its functionality, its functionality may be limited when used in systems running Linux or macOS where these specific APIs aren't available. In such cases, I would recommend using SCE directly, but at least you can compile it on Linux ([Ubuntu 23.10](https://ubuntu.com/)).
+![](https://github.com/Slushi-Github/Slushi-Engine/blob/main/docs/readmeImages/SLEInUbuntu.png)
+
+On Linux or macOS, is SLE usable through [Wine](https://www.winehq.org/)?:
+> As far as I've tested on my own, yes, but Wine doesn't get along with things like moving the window a lot, at least I've tested on [Ubuntu 22.04](https://ubuntu.com/), I don't know on other distros, Debian based or not.
+
+Can I use SLE for my mod?:
+> Sure! I would love to see SLE as a base for a mod, but keep in mind that even though it uses SCE as a foundation, SLE has been heavily modified. This might not make it the best choice for typical FNF mods. However, if you're looking to create mods that leverage what the engine can do, feel free to experiment! Just remember to give me credits where you upload the mod.\
+> **Where I would NOT allow SLE to be used is for**
+> - For Dave And Bambi mods
+> - In the creation or distribution of malware or malicious software
+
+----
+SLE is not made to compete with other engines such as [Psych Engine](https://github.com/ShadowMario/FNF-PsychEngine), [SB Engine](https://github.com/Stefan2008Git/FNF-SB-Engine), [Codename Engine](https://github.com/FNF-CNE-Devs/CodenameEngine) (I wonder why CNE developers decompiled SLE; they had no reason to do that?), or any other existing engines. Instead, SLE is designed to facilitate tasks that might otherwise be challenging and enable you to create modcharts like the ones made in NotITG or Hitmans AD with features beyond simply moving notes or the window.
+
+In the near future, you can expect to find all C++ code from SLE available as a Haxe library on Haxelib. This will allow you to use it in your projects unrelated to FNF. The same goes for WinSL. :3:
+
+[SL-Windows-API](https://lib.haxe.org/p/sl-windows-api/) (usable Windows API functions in Haxe).
+
+### Credits:
+
+Slushi, is neither my original character (OC) nor a character owned by me. She is from the web series, [Chikn Nuggit](https://twitter.com/chikn_nuggit?t=YohD2quSHtamaiJyzT-FOA&s=09), by Kyra Kupetsky. I do not have direct permission to use Slushi in this engine, all rights to the character belong to them.
+
+Slushi Engine uses code from [Codename Engine](https://github.com/FNF-CNE-Devs/CodenameEngine) (SC Engine too, but I only want to refer to the code I used in SLE) and [HITMANS: THE ANNIHILATE AND DESTROY PROJECT](https://gamebanana.com/mods/453997).
+
+For more credit details, [PLEASE check this from SCE README!](https://github.com/EdwhakKB/SC-SP-ENGINE?tab=readme-ov-file#credits-to-other-engine--most-engine-features-and-where-they-come-from-sorry-if-only-now-the-credits-exist-extermely-sorry)
+
+[SC Engine](https://github.com/EdwhakKB/SC-SP-ENGINE), is only the base of SLE, it is not mine, it is from [EdwhakKB](https://github.com/EdwhakKB), I have his full permission to use SLE on this wonderful engine.
+
+----
+
 <details>
-<summary>Original description is here</summary>
-<!-- Thanks soushimiya for this README template! -->
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
-<a id="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
-
-
-
-<!-- PROJECT SHIELDS -->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-
-
-
-<!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="https://github.com/Psych-Slice/P-Slice">
-    <img src="art/iconOG.png" alt="Logo" width="80" height="80">
-  </a>
-
-<h3 align="center">P-Slice Engine</h3>
-
-  <p align="center">
-    Crossover between Psych Engine and newer versions of FNF (also known as V-Slice)
-    <br />
-    <a href="https://github.com/Psych-Slice/P-Slice/wiki"><strong>Explore the Wiki »</strong></a>
-    <br />
-    <br />
-    ·
-    <a href="https://github.com/Psych-Slice/P-Slice/issues">Report Bug or Request Feature</a>
-    ·
-    <a href="https://github.com/Psych-Slice/P-Slice/pulls">Create Pull Request</a>
-  </p>
-</div>
-
-#### Made With
-<img src="https://img.shields.io/badge/-HAXE-262626.svg?logo=haxe&style=for-the-badge">
-
-
-<!-- ABOUT THE PROJECT -->
-## About
-
-P-Slice engine is a crossover between Psych engine and the newest Friday Night Funkin.
-
-It's meant to bring new visuals and features from newer versions of FNF and make changes to the existing ones to make them feel closer to the ones in the V-Slice.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Features
-| V-Slice's freeplay menu | Results screen|
-|-|-|
-|![](art/docs/freeplay.png) | ![](art/docs/result.png)|
-|Character selector|Pausable cutscenes|
-|![](art/docs/character.png)|![](art/docs/pause.png)|
-|Pico|**Just Boyfriend**|
-|![](art/docs/pico.png)|![](https://github.com/Psych-Slice/misc/blob/main/invalid.png?raw=true)|
-<!-- GETTING STARTED -->
-## Getting Started
-
-Pre-built Engine can be download from [GameBanana](https://gamebanana.com/mods/535203).
-Also, Nightly/Beta Build can be download from [Github Actions](https://github.com/Psych-Slice/P-Slice/actions/workflows/main.yml). (You needs to make a Github account.)
-
-
-If you wanna compile this Engine, Please check out <a href="#build">Here</a>
-
-<a id="build"></a>
-## Building
-### Dependencies
-* git
-* (Windows-only) Microsoft Visual Studio Community
-* (Linux-only) VLC
-* Haxe (4.3.6 or greater)
-
-
-(If you are using windows)
-After installing git, it is RECOMMENDED that you open up a command prompt window and type the following
-  ```sh
-  curl -# -O https://download.visualstudio.microsoft.com/download/pr/3105fcfe-e771-41d6-9a1c-fc971e7d03a7/8eb13958dc429a6e6f7e0d6704d43a55f18d02a253608351b6bf6723ffdaf24e/vs_Community.exe
-vs_Community.exe --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.Windows10SDK.19041 -p
-  ```
-
-head into the setup folder located in the root directory of this repository, and execute the setup script:
-- ```Windows.bat```  for Windows.
-- ```Unix.sh``` for Mac/Linux.
-
-
-Run
-   ```sh
-   lime test <platform>
-   ```
-   where ```<platform>``` gets replaced with windows, linux, or mac (I also like to add ```-final``` flag, but you should be fine without it)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-### Branches
-`master` is the repository's main branch. It contains a PE 1.0 flavor of P-Slice and is the most maintained version.
-
-`master-dev` same as `master`, but used for development so might contain less stable builds.
-
-`pe-0.6.3` works the same way, but built on Psych 0.6.3. Note that it may contain some bugs not present in the master version.
-
-`pe-0.6.3-dev` same as `pe-0.6.3`, but used for development so might contain less stable builds.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the Apache License 2.0. See [Licence](https://github.com/Psych-Slice/blob/P-Slice/master/LICENSE) for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/Psych-Slice/P-Slice.svg?style=for-the-badge
-[contributors-url]: https://github.com/Psych-Slice/P-Slice/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/Psych-Slice/P-Slice.svg?style=for-the-badge
-[forks-url]: https://github.com/Psych-Slice/P-Slice/forks
-[https://github.com/Psych-Slice/P-Slice/forks]: https://github.com/Psych-Slice/P-Slice/network/members
-[stars-shield]: https://img.shields.io/github/stars/Psych-Slice/P-Slice.svg?style=for-the-badge
-[stars-url]: https://github.com/Psych-Slice/P-Slice/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Psych-Slice/P-Slice.svg?style=for-the-badge
-[issues-url]: https://github.com/Psych-Slice/P-Slice/issues
-[license-shield]: https://img.shields.io/github/license/Psych-Slice/P-Slice.svg?style=for-the-badge
-[license-url]: https://github.com/Psych-Slice/P-Slice/blob/master/LICENSE.txt!
+<summary>...</summary>
+"Gracias [...] por siempre apoyarme en este proyecto desde que se me ocurrio la idea de iniciarlo, y tambien a ti [...], incluso si ya no estas en este mundo." 
+- Andrés.
 </details>
+
+## Features of Slushi Engine:
+- A HUD specifically made for songs using the NotITG mode, to make it look like the one behind this game, making it easy to get rid of the normal FNF' look.
+- New shaders available only in SLE
+- An extensive number of new Lua functions for you to experiment with when creating your songs or mods
+- Based on the newest versions of SC Engine
+- ~~Result screen of FNF' V-SLICE (From [P-Slice](https://github.com/mikolka9144/P-Slice))~~ (Now SCE has this, no longer feature of SLE)
