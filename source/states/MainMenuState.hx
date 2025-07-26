@@ -11,7 +11,7 @@ import options.OptionsState;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var psychEngineVersion:String = '1.0'; // This is also used for Discord RPC
+	public static var psychEngineVersion:String = '1.0.4'; // This is also used for Discord RPC
 	public static var pSliceVersion:String = '2.1'; 
 	public static var funkinVersion:String = '0.5.1'; // Version of funkin' we are emulationg
 	public static var hrkVersion:String = '0.0.1'; // Version of funkin' we are emulationg
@@ -98,7 +98,7 @@ class MainMenuState extends MusicBeatState
 		}
 
 		var padding:Float = 8;
-		var hrkVer:FlxText = new FlxText(padding, FlxG.height - 58 - padding, FlxG.width, "HRK Engine Redux " + hrkVersion, 12);
+		var hrkVer:FlxText = new FlxText(padding, FlxG.height - 58 - padding, FlxG.width, "Slushi Engine Plus " + hrkVersion, 12);
 		var psychVer:FlxText = new FlxText(padding, FlxG.height - 38 - padding, FlxG.width, "Psych Engine " + psychEngineVersion, 12);
 		var fnfVer:FlxText = new FlxText(padding, FlxG.height - 18 - padding, FlxG.width, 'Friday Night Funkin\' v${funkinVersion} (P-slice ${pSliceVersion})', 12);
 
