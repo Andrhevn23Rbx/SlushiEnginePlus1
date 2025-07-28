@@ -1,180 +1,108 @@
 package debug;
 
-import lime.ui.Window;
-import haxe.Timer;
-import cpp.vm.Gc;
 import flixel.FlxG;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
-import openfl.system.System as OpenFlSystem;
+import openfl.system.System;
+import cpp.vm.Gc;
 import lime.system.System as LimeSystem;
-
-#if flash
-import openfl.Lib;
-#end
 import external.memory.Memory;
+import haxe.Timer;
+import Type;
 
-/**
-	The FPS class provides an easy-to-use monitor to display
-	the current frame rate of an OpenFL project
-**/
-#if cpp
-#if windows
-@:cppFileCode('#include <windows.h>')
-#elseif (ios || mac)
-@:cppFileCode('#include <mach-o/arch.h>')
-#else
-@:headerInclude('sys/utsname.h')
-#end
-#end
 class FPSCounter extends TextField
 {
-	/**
-		The current frame rate, expressed using frames-per-second
-	**/
-	public static var instance:FPSCounter;
 	public var currentFPS(default, null):Int;
-	public var fpsFontSize:Int = 16;
-	public var fpsTextLength:Int = 0;
+	public var memoryMegas(get, never):Float;
 
-	var curWindow:Window;
+	private var times:Array<Float> = [];
+	private var deltaTimeout:Float = 0.0;
 
-	var fps:Int = 0;
-	var curTime:Float = 0;
-	var frameTime:Float = 0;
-	var multipleRate:Float = 1.0;
-	public var updateRate:Float = 50;
-
-	@:noCompletion private var cacheCount:Float;
-	@:noCompletion private var times:Array<Int>;
-
-	public var os:String = '';
-
-	var deltaTimeout:Float = 0.0;
-	var delta:Int = 0;
-	var sliceCnt:Int = 0;
-	var sum:Int = 0;
-	var avg:Float = 0;
-
-	var defineX:Float = 0;
-	var defineY:Float = 0;
-
-	var active:Bool = true;
-	var updated:Bool = false;
+	private var avg:Float = 0;
+	private var os:String;
 
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
 	{
 		super();
-		instance = this;
 
-		defineX = x; defineY = y;
-
-		if (LimeSystem.platformName == LimeSystem.platformVersion || LimeSystem.platformVersion == null)
-			os = 'OS: ${LimeSystem.platformName}' #if cpp + ' ${getArch() != 'Unknown' ? getArch() : ''}' #end;
-		else
-			os = 'OS: ${LimeSystem.platformName}' #if cpp + ' ${getArch() != 'Unknown' ? getArch() : ''}' #end + ' - ${LimeSystem.platformVersion}';
-
-		positionFPS(defineX, defineY, ClientPrefs.data.wideScreen);
+		this.x = x;
+		this.y = y;
 
 		currentFPS = 0;
 		selectable = false;
 		mouseEnabled = false;
-		defaultTextFormat = new TextFormat(Paths.font("fps.ttf"), fpsFontSize, color);
+		defaultTextFormat = new TextFormat("_sans", 16, color);
 		autoSize = LEFT;
 		multiline = true;
 		text = "FPS: ";
-		fps = ClientPrefs.data.framerate;
-		updateRate = ClientPrefs.data.fpsRate;
 
-		cacheCount = 0;
-		times = [];
-		
-		deltaTimeout = avg = 0.0;
-		delta = sliceCnt = sum = 0;
+		// OS Info
+		if (LimeSystem.platformName == LimeSystem.platformVersion || LimeSystem.platformVersion == null)
+			os = 'OS: ${LimeSystem.platformName}' #if cpp + ' ${getArch()}' #end;
+		else
+			os = 'OS: ${LimeSystem.platformName}' #if cpp + ' ${getArch()}' #end + ' - ${LimeSystem.platformVersion}';
 	}
 
-	// Event Handlers
 	private override function __enterFrame(deltaTime:Float):Void
 	{
-		if (!visible || FlxG.autoPause && !stage.nativeWindow.active) return;
-		sliceCnt = 0; delta = Math.round(deltaTime);
-		times.push(delta); sum += delta; updated = false;
-		fps = ClientPrefs.data.framerate;
+		final now:Float = Timer.stamp() * 1000;
+		times.push(now);
+		while (times[0] < now - 1000) times.shift();
 
-		while (sum > 1000) {
-			sum -= times[sliceCnt];
-			++sliceCnt;
+		if (deltaTimeout < 1000 / ClientPrefs.data.fpsRate) {
+			deltaTimeout += deltaTime;
+			return;
 		}
-		if (sliceCnt > 0) times.splice(0, sliceCnt);
 
-		avg = times.length > 0 ? 1000 / (sum / times.length) : 0.0;
-		// trace(times.length, avg);
+		currentFPS = Math.round(times.length);
+		avg = times.length > 0 ? 1000 / ((times[times.length - 1] - times[0]) / times.length) : 0;
 
-		// prevents the overlay from updating every frame, why would you need to anyways @crowplexus
-		deltaTimeout += deltaTime;
-		if (deltaTimeout < 1000 / updateRate) return;
-		// Literally the stupidest thing i've done for the FPS counter but it allows it to update correctly when on 60 FPS??
-		currentFPS = Math.round(avg); //Math.round((times.length + cacheCount) * 0.5) - 1;
 		updateText();
 		deltaTimeout = 0.0;
 	}
 
-	// so people can override it in hscript
-	public dynamic function updateText() {
-		text = 'FPS: $currentFPS\n' + 
-			   'RAM: ${CoolUtil.formatBytes(Memory.getCurrentUsage(), 2, true)}' + 
-			   ' / ${CoolUtil.formatBytes(Gc.memInfo64(Gc.MEM_INFO_USAGE), 2, true)}' + 
-			   ' / ${CoolUtil.formatBytes(Memory.getPeakUsage(), 2, true)}\n' + os +
-			   '\nState: ${Type.getClassName(Type.getClass(FlxG.state))}' + 
-			   '\nSubState: ${Type.getClassName(Type.getClass(FlxG.state.subState))}';
+	public dynamic function updateText():Void
+	{
+		var ramUsage:String = CoolUtil.formatBytes(Memory.getCurrentUsage(), 2, true);
+		var ramPeak:String  = CoolUtil.formatBytes(Memory.getPeakUsage(), 2, true);
+		var ramLimit:String = CoolUtil.formatBytes(Gc.memInfo64(Gc.MEM_INFO_USAGE), 2, true);
 
+		text = 'FPS: $currentFPS\n' +
+			   'RAM: $ramUsage / $ramLimit / $ramPeak\n' +
+			   os + '\n' +
+			   'State: ${Type.getClassName(Type.getClass(FlxG.state))}\n' +
+			   'SubState: ${Type.getClassName(Type.getClass(FlxG.state.subState))}';
+
+		// FPS color: gradient from red to green based on FPS
 		textColor = Std.int(
-			0xFFFF0000 + 
-			(Std.int(CoolUtil.normalize(currentFPS, 1, fps >> 1, true) * 255) << 8) + 
-			Std.int(CoolUtil.normalize(currentFPS, fps >> 1, fps, true) * 255)
+			0xFFFF0000 +
+			(Std.int(CoolUtil.normalize(currentFPS, 1, ClientPrefs.data.framerate >> 1, true) * 255) << 8) +
+			Std.int(CoolUtil.normalize(currentFPS, ClientPrefs.data.framerate >> 1, ClientPrefs.data.framerate, true) * 255)
 		);
-
-		// fpsTextLength = text.length;
-		// cacheCount = times.length;
 	}
 
-	public inline function positionFPS(X:Float, Y:Float, isWide:Bool = false, ?scale:Float = 1){
-		scaleX = scaleY = #if android (scale > 1 ? scale : 1) #else (scale < 1 ? scale : 1) #end;
-		if (isWide) {
-			x = X; y = Y;
-		} else {
-			x = FlxG.game.x + X;
-			y = FlxG.game.y + Y;
-		}
-	}
+	inline function get_memoryMegas():Float
+		return Gc.memInfo64(Gc.MEM_INFO_USAGE);
 
 	#if cpp
 	#if windows
 	@:functionCode('
 		SYSTEM_INFO osInfo;
-
 		GetSystemInfo(&osInfo);
-
 		switch(osInfo.wProcessorArchitecture)
 		{
-			case 9:
-				return ::String("x86_64");
-			case 5:
-				return ::String("ARM");
-			case 12:
-				return ::String("ARM64");
-			case 6:
-				return ::String("IA-64");
-			case 0:
-				return ::String("x86");
-			default:
-				return ::String("Unknown");
+			case 9: return ::String("x86_64");
+			case 5: return ::String("ARM");
+			case 12: return ::String("ARM64");
+			case 6: return ::String("IA-64");
+			case 0: return ::String("x86");
+			default: return ::String("Unknown");
 		}
 	')
 	#elseif (ios || mac)
 	@:functionCode('
 		const NXArchInfo *archInfo = NXGetLocalArchInfo();
-    	return ::String(archInfo == NULL ? "Unknown" : archInfo->name);
+		return ::String(archInfo == NULL ? "Unknown" : archInfo->name);
 	')
 	#else
 	@:functionCode('
@@ -183,10 +111,6 @@ class FPSCounter extends TextField
 		return ::String(osInfo.machine);
 	')
 	#end
-	@:noCompletion
-	private function getArch():String
-	{
-		return "Unknown";
-	}
+	private function getArch():String return "Unknown";
 	#end
 }
