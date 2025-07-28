@@ -122,7 +122,7 @@ import states.TitleState;
 	public var language:String = 'en-US';
 	public var changeNotes:Bool = false;
 
-	// Optimizer
+	// Optmization
 	public var openDoor:String = "!";
 	public var showNotes:Bool = true;
 	public var keepNotes:Bool = false;
