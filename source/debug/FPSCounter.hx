@@ -12,8 +12,11 @@ import Type;
 
 class FPSCounter extends TextField
 {
+	public static var instance:FPSCounter;
+
 	public var currentFPS(default, null):Int;
 	public var memoryMegas(get, never):Float;
+	public var updateRate:Float = 50;
 
 	private var times:Array<Float> = [];
 	private var deltaTimeout:Float = 0.0;
@@ -24,9 +27,7 @@ class FPSCounter extends TextField
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
 	{
 		super();
-
-		this.x = x;
-		this.y = y;
+		instance = this;
 
 		currentFPS = 0;
 		selectable = false;
@@ -35,6 +36,8 @@ class FPSCounter extends TextField
 		autoSize = LEFT;
 		multiline = true;
 		text = "FPS: ";
+
+		positionFPS(x, y, ClientPrefs.data.wideScreen);
 
 		// OS Info
 		if (LimeSystem.platformName == LimeSystem.platformVersion || LimeSystem.platformVersion == null)
@@ -49,7 +52,7 @@ class FPSCounter extends TextField
 		times.push(now);
 		while (times[0] < now - 1000) times.shift();
 
-		if (deltaTimeout < 1000 / ClientPrefs.data.fpsRate) {
+		if (deltaTimeout < 1000 / updateRate) {
 			deltaTimeout += deltaTime;
 			return;
 		}
@@ -73,7 +76,7 @@ class FPSCounter extends TextField
 			   'State: ${Type.getClassName(Type.getClass(FlxG.state))}\n' +
 			   'SubState: ${Type.getClassName(Type.getClass(FlxG.state.subState))}';
 
-		// FPS color: gradient from red to green based on FPS
+		// FPS color: gradient from red to green
 		textColor = Std.int(
 			0xFFFF0000 +
 			(Std.int(CoolUtil.normalize(currentFPS, 1, ClientPrefs.data.framerate >> 1, true) * 255) << 8) +
@@ -81,9 +84,26 @@ class FPSCounter extends TextField
 		);
 	}
 
+	// For positionFPS call from MobileScaleMode.hx
+	public inline function positionFPS(X:Float, Y:Float, isWide:Bool = false, ?scale:Float = 1)
+	{
+		scaleX = scaleY = #if android (scale > 1 ? scale : 1) #else (scale < 1 ? scale : 1) #end;
+		if (isWide)
+		{
+			x = X;
+			y = Y;
+		}
+		else
+		{
+			x = FlxG.game.x + X;
+			y = FlxG.game.y + Y;
+		}
+	}
+
 	inline function get_memoryMegas():Float
 		return Gc.memInfo64(Gc.MEM_INFO_USAGE);
 
+	// Native CPU Arch detection
 	#if cpp
 	#if windows
 	@:functionCode('
