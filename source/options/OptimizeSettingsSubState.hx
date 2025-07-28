@@ -11,7 +11,7 @@ class OptimizeSettingsSubState extends BaseOptionsMenu
 		DiscordClient.changePresence("Optmizations Menu", null);
 		#end
 		
-		title = 'Optmization';
+		title = 'Optmizer';
 		rpcTitle = 'Optimize Settings Menu'; //for Discord Rich Presence
 
 		//Working in Progress!
