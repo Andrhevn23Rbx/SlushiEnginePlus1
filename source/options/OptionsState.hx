@@ -18,7 +18,7 @@ class OptionsState extends MusicBeatState
 		'Note Colors',
 		'Controls',
 		'Adjust Delay and Combo',
-		'Optmizer',
+		'Optimizer',
 		'Graphics',
 		'Visuals',
 		'Gameplay',
